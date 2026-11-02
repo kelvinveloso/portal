@@ -12,7 +12,12 @@ git remote add origin https://github.com/kelvinveloso/portal.git
 git push -u origin main
 
 ## 3. Ciclo de Trabalho (Criar branch e alterar código)
+--> criando branch
 git checkout -b nome-da-sua-branch
+
+--> deletando branch
+git checkout main
+git branch -D nome-da-sua-branch
 
 (Faça as alterações necessárias nos arquivos e salve)
 
