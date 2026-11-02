@@ -1,12 +1,9 @@
+# Guia Definitivo de Comandos Git - Fluxo de Trabalho
 
-# Kelvin
-
-# Comandos Git - Fluxo de Trabalho
-
-## 1. Clonar o projeto (baixar do GitHub para o computador)
+## 1. Configuração Inicial (Clonar o projeto)
 git clone https://github.com/kelvinveloso/portal.git
 
-## 2. Iniciar o projeto pela primeira vez (caso comece do zero na máquina)
+## 2. Iniciar o projeto pela primeira vez (caso comece do zero)
 git init
 git add .
 git commit -m "Portal"
@@ -14,17 +11,19 @@ git branch -M main
 git remote add origin https://github.com/kelvinveloso/portal.git
 git push -u origin main
 
-## 3. A cada alteração no código
-Criar uma nova branch:
-git checkout -b adicionando-novo-texto
+## 3. Ciclo de Trabalho (Criar branch e alterar código)
+git checkout -b nome-da-sua-branch
 
-*(Criar as alterações no código)*
+(Faça as alterações necessárias nos arquivos e salve)
 
-Publicar as alterações:
 git add .
-git commit -m "Adiciona um novo paragrafo no site"
-git push -u origin adicionando-novo-texto
+git commit -m "Sua mensagem sobre o que alterou"
+git push -u origin nome-da-sua-branch
 
-## 4. Sincronizar após o merge no GitHub
+## 4. Finalizar (Juntar com a principal e atualizar)
 git checkout main
+git merge nome-da-sua-branch
+git push origin main
+
+## 5. Sincronização de Emergência (Puxar atualizações)
 git pull origin main
