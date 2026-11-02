@@ -1,7 +1,10 @@
 @echo off
 chcp 65001 >nul
 color 0A
-  
+
+:: Esta linha obriga o .bat a rodar na mesma pasta onde o arquivo foi salvo
+cd /d "%~dp0"
+
 :menu
 cls
 echo =======================================================
@@ -11,7 +14,7 @@ echo 1. Clonar um projeto
 echo 2. Iniciar projeto do zero (Primeiro Commit)
 echo 3. Criar nova branch, empacotar (Commit) e enviar (Push)
 echo 4. Finalizar: Fazer Merge com a main e atualizar nuvem
-echo 5. Sincronizar de Emergência (Pull main)
+echo 5. Sincronizar de Emergencia (Pull main)
 echo 6. Sair
 echo =======================================================
 set /p opcao="Escolha uma opcao (1-6): "
@@ -57,7 +60,7 @@ set /p branch="Digite o nome da nova branch (sem espacos): "
 git checkout -b %branch%
 echo.
 echo [AVISO] A branch %branch% foi criada. 
-echo Faca suas alteracoes nos arquivos e salve no VS Code.
+echo Faca suas alteracoes nos arquivos, salve no VS Code e pressione qualquer tecla aqui para continuar.
 pause
 echo.
 git add .
