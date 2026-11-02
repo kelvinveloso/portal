@@ -1,10 +1,3 @@
-
-# Comandos Git - Fluxo de Trabalho
-
-## 1. Clonar o projeto (baixar do GitHub para o computador)
-git clone https://github.com/kelvinveloso/portal.git
-
-## 2. Iniciar o projeto pela primeira vez (caso comece do zero na máquina)
 git init
 git add .
 git commit -m "Portal"
