@@ -32,3 +32,9 @@ git push origin main
 
 ## 5. Sincronização de Emergência (Puxar atualizações)
 git pull origin main
+
+npm init -y  
+npm install express
+npm install mysql2
+npm install nodemon --save-dev
+node index.js

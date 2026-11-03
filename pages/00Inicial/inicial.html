@@ -1,11 +1,367 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Configuração do Banco de Dados</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 950px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            padding: 32px;
+        }
+
+        .terminal-container {
+            flex: 1;
+            background-color: #0c0c0c;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Consolas', 'Courier New', monospace;
+        }
+
+        .terminal-header {
+            background-color: #1f1f1f;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #333;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .btn-close { background-color: #ff5f56; }
+        .btn-min { background-color: #ffbd2e; }
+        .btn-max { background-color: #27c93f; }
+
+        .terminal-title {
+            color: #888;
+            font-size: 0.85rem;
+            margin-left: 10px;
+        }
+
+        .terminal-body {
+            padding: 16px;
+            color: #00ff66;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            white-space: pre-wrap;
+        }
+
+        .terminal-body .log-error { color: #ff4d4d; }
+        .terminal-body .log-info { color: #cccccc; }
+        .terminal-body .log-success { color: #00ff66; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .header p.welcome-message {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Inicial</h1>
+
+    <div class="wrapper">
+        <!-- FORMULÁRIO -->
+        <div class="container">
+            <div class="header">
+                <h1>Configuração do Portal</h1>
+                <p class="welcome-message">
+                    Seja bem vindo ao SeuPortal, indique o nome do seu portal e os dados de conexão com o banco
+                </p>
+            </div>
+
+            <form id="form-mysql">
+                <div class="form-group">
+                    <label for="nomePortal">Nome do Portal</label>
+                    <input type="text" id="nomePortal" name="nomePortal" placeholder="Ex: Portal de Clientes">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="host">Servidor (Host)</label>
+                        <input type="text" id="host" name="host" value="localhost" placeholder="localhost">
+                    </div>
+
+                    <div class="form-group" style="flex: 0.5;">
+                        <label for="porta">Porta</label>
+                        <input type="number" id="porta" name="porta" value="3306" placeholder="3306">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="usuario">Usuário</label>
+                    <input type="text" id="usuario" name="usuario" value="root" placeholder="root">
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" value="" placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label for="banco">Nome do Banco de Dados</label>
+                    <input type="text" id="banco" name="banco" value="mysql" placeholder="mysql">
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="btn-teste" class="btn btn-secondary">Testar Conexão</button>
+                    <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TERMINAL PROMPT DE COMANDO -->
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="terminal-btn btn-close"></span>
+                <span class="terminal-btn btn-min"></span>
+                <span class="terminal-btn btn-max"></span>
+                <span class="terminal-title">Prompt de Comando - Status do Sistema</span>
+            </div>
+            <div class="terminal-body" id="terminal-log">
+                <span class="log-info">[SISTEMA] Aguardando ação do usuário...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal-log');
+
+        function log(mensagem, tipo = 'info') {
+            const hora = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            
+            if (tipo === 'error') div.className = 'log-error';
+            else if (tipo === 'success') div.className = 'log-success';
+            else div.className = 'log-info';
+
+            div.textContent = `[${hora}] ${mensagem}`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function obterDadosFormulario() {
+            return {
+                nomePortal: document.getElementById('nomePortal').value,
+                host: document.getElementById('host').value,
+                porta: document.getElementById('porta').value,
+                usuario: document.getElementById('usuario').value,
+                senha: document.getElementById('senha').value,
+                banco: document.getElementById('banco').value
+            };
+        }
+
+        // Ação: Apenas Testar Conexão
+        document.getElementById('btn-teste').addEventListener('click', async () => {
+            const dados = obterDadosFormulario();
+
+            log(`Iniciando teste manual de conexão...`);
+            log(`Servidor: ${dados.host}:${dados.porta} | Banco: ${dados.banco} | Usuário: ${dados.usuario}`);
+
+            try {
+                const resposta = await fetch('/api/testar-conexao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resultado = await resposta.json();
+                
+                if (resultado.sucesso) {
+                    log(`SUCCESS: ${resultado.mensagem}`, 'success');
+                } else {
+                    log(`ERROR: ${resultado.mensagem}`, 'error');
+                }
+            } catch (erro) {
+                log(`ERROR: Não foi possível comunicar com o servidor Node.`, 'error');
+            }
+        });
+
+        // Ação: Salvar (Testa primeiro -> Salva -> Redireciona)
+        document.getElementById('form-mysql').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dados = obterDadosFormulario();
+
+            if (!dados.nomePortal.trim()) {
+                log(`ERROR: Por favor, preencha o Nome do Portal antes de salvar.`, 'error');
+                return;
+            }
+
+            log(`Validando conexão antes de salvar...`);
+            log(`Servidor: ${dados.host}:${dados.porta} | Banco: ${dados.banco} | Usuário: ${dados.usuario}`);
+
+            try {
+                const respTeste = await fetch('/api/testar-conexao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resTeste = await respTeste.json();
+
+                if (!resTeste.sucesso) {
+                    log(`ERROR: Teste de conexão falhou. As configurações NÃO foram salvas.`, 'error');
+                    log(`DETALHE: ${resTeste.mensagem}`, 'error');
+                    return;
+                }
+
+                log(`SUCCESS: Conexão confirmada com sucesso!`, 'success');
+
+                log(`Gravando dados no arquivo config.json...`);
+                const respSalvar = await fetch('/api/salvar-configuracao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+
+                const resSalvar = await respSalvar.json();
+
+                if (resSalvar.sucesso) {
+                    log(`SUCCESS: ${resSalvar.mensagem}`, 'success');
+                    log(`Redirecionando para a tela de login...`, 'info');
+
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 800);
+                } else {
+                    log(`ERROR: ${resSalvar.mensagem}`, 'error');
+                }
+
+            } catch (erro) {
+                log(`ERROR: Falha de comunicação ao tentar validar/salvar as configurações.`, 'error');
+            }
+        });
+    </script>
 </body>
 </html>

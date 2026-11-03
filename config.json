@@ -1,0 +1,8 @@
+{
+    "nomePortal": "Veloso",
+    "host": "localhost",
+    "porta": "3306",
+    "usuario": "root",
+    "senha": "root",
+    "banco": "mysql"
+}

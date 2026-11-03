@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Carregando Portal...</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #4a5568;
+        }
+        .loading-box {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1> ola mundo  </h1>
+    <div class="loading-box">
+        <h2>A verificar configurações do sistema...</h2>
+    </div>
+
+    <script>
+        async function verificarStatus() {
+            try {
+                const resposta = await fetch('/api/status-inicial');
+                const dados = await resposta.json();
+
+                if (dados.configurado) {
+                    // Configuração OK e banco ativo -> redireciona para Login
+                    window.location.href = '/login';
+                } else {
+                    // Sem config.json ou erro no banco -> redireciona para Inicial
+                    window.location.href = '/inicial';
+                }
+            } catch (erro) {
+                // Se der qualquer falha no servidor, vai para a tela de inicial
+                window.location.href = '/inicial';
+            }
+        }
+
+        verificarStatus();
+    </script>
 </body>
 </html>
